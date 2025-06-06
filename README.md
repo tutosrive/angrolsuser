@@ -36,7 +36,7 @@ git switch {your-branch-name}
 Install backend dependencies:
 
 ```bash
-npm install
+npm install --force
 ```
 
 ---
