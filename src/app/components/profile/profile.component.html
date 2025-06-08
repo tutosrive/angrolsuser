@@ -1,0 +1,18 @@
+<!-- Si user$ emite un GoogleUser, mostramos nombre + foto + “Cerrar sesión”
+<ng-container *ngIf="user$ | async as user; else mostrarBoton">
+  <div class="user-info">
+    <img [src]="user.picture" alt="Avatar" width="50" height="50" />
+    <p>Hola, {{ user.name }}</p>
+    <button (click)="onSignOut()">Cerrar sesión</button>
+  </div>
+</ng-container> -->
+
+<!-- Si user$ emite un objeto de usuario (no es null), muestra la información. -->
+<!-- De lo contrario, no muestra nada. El 'else' fue removido para corregir el error. -->
+<ng-container *ngIf="user$ | async as user">
+  <div class="user-info">
+    <img [src]="user.picture" alt="Avatar" width="50" height="50" />
+    <p>Hola, {{ user.name }}</p>
+    <button (click)="onSignOut()">Cerrar sesión</button>
+  </div>
+</ng-container>
