@@ -19,7 +19,7 @@ export class LoginButtonComponent implements OnInit {
       if (user) {
         // Usamos NgZone para asegurarnos de que la navegación ocurra dentro de la zona de Angular
         this.ngZone.run(() => {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['user-profile']);
         });
       }
     });
