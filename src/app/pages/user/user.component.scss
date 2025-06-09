@@ -1,0 +1,103 @@
+.btn-info {
+  background-color: #11cdef;
+  border-color: #11cdef;
+  color: white;
+  margin-right: 5px; /* Pequeño margen entre botones */
+  box-shadow: 0 2px 4px rgba(17, 205, 239, 0.2); /* Sombra sutil */
+  border-radius: .375rem; /* Bordes redondeados */
+  &:hover {
+    background-color: #0da5c0;
+    border-color: #0da5c0;
+    box-shadow: 0 4px 8px rgba(17, 205, 239, 0.3);
+  }
+}
+
+.btn-danger {
+  background-color: #f5365c;
+  border-color: #f5365c;
+  color: white;
+  box-shadow: 0 2px 4px rgba(245, 54, 92, 0.2);
+  border-radius: .375rem;
+  &:hover {
+    background-color: #ec0c38;
+    border-color: #ec0c38;
+    box-shadow: 0 4px 8px rgba(245, 54, 92, 0.3);
+  }
+}
+
+.btn-primary {
+  background-color: #5e72e4;
+  border-color: #5e72e4;
+  color: white;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
+  border-radius: .375rem;
+  &:hover {
+    background-color: #324cdd;
+    border-color: #324cdd;
+    box-shadow: 0 7px 14px rgba(50, 50, 93, .1), 0 3px 6px rgba(0, 0, 0, .08);
+  }
+}
+
+.table {
+  thead th {
+    background-color: #f6f9fc;
+    color: #8898aa;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+  }
+  tbody tr {
+    transition: background-color 0.2s ease-in-out;
+    &:hover {
+      background-color: #f8f9fe;
+    }
+  }
+  td {
+    vertical-align: middle;
+    font-size: 0.95rem;
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-stats {
+  .card-body {
+    padding: 1rem 1.5rem;
+  }
+  .icon-shape {
+    font-size: 1.5rem;
+  }
+  .card-title {
+    font-size: 0.8rem;
+  }
+  .h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Estilos para SweetAlert2 */
+.swal2-popup {
+  font-family: "Open Sans", sans-serif;
+  border-radius: .375rem;
+}
+
+.swal2-title {
+  color: #32325d;
+  font-weight: 600;
+}
+
+.swal2-input {
+  border: 1px solid #cad1d7;
+  border-radius: .375rem;
+  padding: .625rem .75rem;
+  width: calc(100% - 24px); /* Ajusta el ancho para el padding */
+  margin-bottom: 1rem;
+  &:focus {
+    border-color: #5e72e4;
+    box-shadow: 0 0 0 0.2rem rgba(94, 114, 228, 0.25);
+  }
+}

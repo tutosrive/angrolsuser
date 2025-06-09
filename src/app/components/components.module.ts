@@ -6,7 +6,7 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './profile/profile.component';
-import { LoginButtonComponent } from './login-button/login-button.component'; // Importado
+import { LoginButtonComponent } from './login-button/login-button.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, NgbModule],
@@ -15,7 +15,7 @@ import { LoginButtonComponent } from './login-button/login-button.component'; //
     NavbarComponent,
     SidebarComponent,
     ProfileComponent,
-    LoginButtonComponent, // Declarado aquí
+    LoginButtonComponent
   ],
   exports: [
     FooterComponent,
