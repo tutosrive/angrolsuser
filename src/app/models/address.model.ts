@@ -1,10 +1,10 @@
-import { User } from "./user.model"
+import { User } from './user.model';
 
-export interface Address {
-    user?: User
-    id?:number
-    street?:string
-    number?:string
-    latitude?:number
-    longitude?:number
+export class Address {
+  user?: User;
+  id?: number;
+  street?: string;
+  number?: string;
+  latitude?: number;
+  longitude?: number;
 }

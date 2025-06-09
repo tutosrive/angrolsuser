@@ -1,8 +1,8 @@
-import { User } from "./user.model"
+import { User } from './user.model';
 
-export interface Profile {
-    user?: User
-    id?:number
-    phone?:string
-    photo?:string
+export class Profile {
+  user?: User;
+  id?: number;
+  phone?: string;
+  photo?: string;
 }
