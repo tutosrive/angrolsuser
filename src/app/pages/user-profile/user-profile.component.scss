@@ -1,0 +1,30 @@
+/* src/app/pages/user-profile/user-profile.component.scss */
+
+// Estilo para la imagen del perfil cuando es un placeholder (letra)
+.card-profile-image .rounded-circle[src*="placehold.co"] {
+  background-color: #6c757d; /* Un color gris oscuro para el fondo */
+  color: #fff; /* Texto blanco para la letra */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem; /* Tamaño de fuente grande para la letra */
+  font-weight: bold;
+  line-height: 1; /* Asegura que el texto esté centrado verticalmente */
+  text-align: center;
+  border: 3px solid #fff; /* Borde blanco para la imagen de perfil */
+}
+
+// Estilo para el placeholder general cuando no hay usuario (el ícono de persona)
+.placeholder-avatar {
+  background-color: #6c757d; /* Fondo gris para el ícono */
+  color: #fff; /* Color blanco para el ícono */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #fff; /* Borde blanco */
+  font-size: 4rem; /* Tamaño del ícono */
+  line-height: 1; /* Centrado vertical */
+  // Asegurarse de que el tamaño del span sea el mismo que el img para la consistencia del círculo
+  width: 180px; /* Tamaño del avatar grande en el perfil */
+  height: 180px;
+}

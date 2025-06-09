@@ -21,7 +21,8 @@
           <div class="media align-items-center">
             <span class="avatar avatar-sm rounded-circle">
               <!-- Usar la imagen del usuario obtenida del Observable -->
-              <img alt="Image placeholder" [src]="user.picture" />
+              <!-- Corregido el onerror para asegurar que la primera letra se use correctamente -->
+              <img [alt]="user.name" [src]="user.picture" onerror="this.onerror=null; this.src='https://placehold.co/96x96/cccccc/333333?text=' + (this.alt ? this.alt.charAt(0).toUpperCase() : 'U');" />
             </span>
             <div class="media-body ml-2 d-none d-lg-block">
               <!-- Mostrar el nombre del usuario -->
