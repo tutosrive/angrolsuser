@@ -1,62 +1,55 @@
-import { Component, OnInit, ElementRef } from "@angular/core";
-import { ROUTES } from "../sidebar/sidebar.component";
-import {
-  Location,
-  LocationStrategy,
-  PathLocationStrategy,
-} from "@angular/common";
-import { Router } from "@angular/router";
-import { User } from "src/app/models/user.model";
-import { SecurityService } from "src/app/services/security.service";
-import { Subscription } from "rxjs";
-// import { WebSocketService } from "src/app/services/web-socket-service.service";
+import { Component, OnInit, ElementRef } from '@angular/core';
+import { ROUTES } from '../sidebar/sidebar.component';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Router } from '@angular/router';
+import { SecurityService } from 'src/app/services/security.service';
+import { AuthService, GoogleUser } from 'src/app/services/auth.service'; // Importar AuthService y GoogleUser
+import { Observable } from 'rxjs'; // Importar Observable
 
 @Component({
-  selector: "app-navbar",
-  templateUrl: "./navbar.component.html",
-  styleUrls: ["./navbar.component.scss"],
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  public focus;
+  public focus: boolean;
   public listTitles: any[];
   public location: Location;
-  user: User;
-  subscription: Subscription;
+  public user$: Observable<GoogleUser | null>; // Observable para los datos del usuario
+
   constructor(
     location: Location,
     private element: ElementRef,
     private router: Router,
-    private securityService: SecurityService
+    private securityService: SecurityService, // Mantener si aún se usa en alguna parte para existSession()
+    private authService: AuthService // Inyectar AuthService
   ) {
     this.location = location;
-    this.subscription = this.securityService.getUser().subscribe((data) => {
-      this.user = data;
-    });
   }
 
   ngOnInit() {
     this.listTitles = ROUTES.filter((listTitle) => listTitle);
-    // this.webSocketService.setNameEvent("new_notification");
-    // this.webSocketService.callback.subscribe((data: any) => {
-    //     console.log("Nueva notificación recibida:", data);
-    // });
+    // Suscribirse al observable de usuario del AuthService
+    this.user$ = this.authService.user$;
   }
+
   getTitle() {
-    var titlee = this.location.prepareExternalUrl(this.location.path());
-    if (titlee.charAt(0) === "#") {
+    let titlee = this.location.prepareExternalUrl(this.location.path());
+    if (titlee.charAt(0) === '#') {
       titlee = titlee.slice(1);
     }
 
-    for (var item = 0; item < this.listTitles.length; item++) {
+    for (let item = 0; item < this.listTitles.length; item++) {
       if (this.listTitles[item].path === titlee) {
         return this.listTitles[item].title;
       }
     }
-    return "Dashboard";
+    return 'Dashboard';
   }
 
-  logout() {
-    console.log("Logout");
-    this.securityService.logout();
+  // Método para cerrar sesión, llamando al servicio de autenticación
+  logout(): void {
+    console.log('Cerrando sesión desde Navbar');
+    this.authService.signOut();
   }
 }
