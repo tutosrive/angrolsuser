@@ -1,0 +1,78 @@
+<!-- src/app/pages/signatures/signature-list/signature-list.component.html -->
+<!-- Encabezado de la página con un degradado de fondo -->
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body"></div>
+  </div>
+</div>
+
+<!-- Contenido principal de la página, ajustado para el espacio debajo del encabezado -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <!-- Encabezado de la tarjeta con el título de la lista -->
+        <div class="card-header border-0">
+          <h3 class="mb-0">Firmas Digitales</h3>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Firmas Digitales</h2>
+            <button class="btn btn-primary" (click)="create()">Nueva Firma</button>
+          </div>
+        </div>
+        <!-- Contenedor para la tabla con scroll si el contenido excede el tamaño -->
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Firma</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Se muestran los mensajes de carga, error o no hay firmas si isLoading es true,
+                   hay un errorMessage, o el array de firmas está vacío respectivamente -->
+              <ng-container *ngIf="isLoading">
+                <tr>
+                  <td colspan="4" class="text-center">Cargando firmas...</td>
+                </tr>
+              </ng-container>
+              <ng-container *ngIf="!isLoading && errorMessage">
+                <tr>
+                  <td colspan="4" class="text-center text-danger">{{ errorMessage }}</td>
+                </tr>
+              </ng-container>
+              <ng-container *ngIf="!isLoading && !errorMessage && signatures.length === 0">
+                <tr>
+                  <td colspan="4" class="text-center">No hay firmas disponibles.</td>
+                </tr>
+              </ng-container>
+
+              <!-- Itera sobre el array de firmas para mostrar cada una en una fila de la tabla -->
+              <tr *ngFor="let signature of signatures">
+                <td>{{ signature.name }}</td>
+                <td>{{ signature.description }}</td>
+                <td>
+                  <!--
+                    Se usa un enlace de propiedad ([src]) para el atributo 'src' de la imagen.
+                    El valor de 'signature.file' debe ser una Data URL completa
+                    (ej. 'data:image/jpeg;base64,TU_CADENA_BASE64').
+                    Si 'signature.file' está vacío o nulo, se muestra un mensaje alternativo.
+                  -->
+                  <img *ngIf="signature.file" [src]="signature.file" alt="Firma Digital" style="max-width: 150px; height: auto" />
+                  <span *ngIf="!signature.file">No hay imagen</span>
+                </td>
+                <td>
+                  <!-- Botones de acción para cada firma (editar, eliminar) -->
+                  <button class="btn btn-sm btn-primary">Editar</button>
+                  <button class="btn btn-sm btn-danger">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

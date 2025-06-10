@@ -1,0 +1,24 @@
+<div class="container-fluid mt-4">
+  <!-- Encabezado -->
+  <div class="mb-4">
+    <h1>{{ user?.name }} - Firma</h1>
+  </div>
+
+  <div class="row">
+    <!-- Foto de la firma -->
+    <div class="col-md-4 text-center">
+      <img *ngIf="signature?.photo"
+           [src]="signature.photo"
+           alt="Firma de {{ user?.name }}"
+           class="img-fluid rounded"
+           style="max-height: 300px;" />
+      <p *ngIf="!signature?.photo" class="text-muted">Sin firma registrada</p>
+    </div>
+
+    <!-- Datos del usuario -->
+    <div class="col-md-8">
+      <p><strong>Nombre:</strong> {{ user?.name }}</p>
+      <p><strong>Correo electrónico:</strong> {{ user?.email }}</p>
+    </div>
+  </div>
+</div>

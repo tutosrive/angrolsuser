@@ -1,0 +1,14 @@
+<div class="container-fluid mt-4">
+  <h2>{{ isUpdate ? 'Actualizar Firma' : 'Crear Firma' }}</h2>
+  <form (ngSubmit)="submit()">
+    <div class="form-group">
+      <label>Foto:</label>
+      <input type="file" (change)="onFileChange($event)" accept="image/*" class="form-control-file">
+      <div *ngIf="previewUrl" class="mt-2">
+        <img [src]="previewUrl" alt="Preview" width="80" class="img-thumbnail">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success">{{ isUpdate ? 'Actualizar' : 'Guardar' }}</button>
+    <button type="button" class="btn btn-secondary ml-2" (click)="router.navigate(['/signatures'])">Cancelar</button>
+  </form>
+</div>

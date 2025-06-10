@@ -1,40 +1,33 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-
-// Definición de la interfaz User
-// Asumo que esta interfaz ya existe o se creará.
-// Si tus modelos están en otro lugar, ajusta la ruta de importación.
 import { User } from '../models/user.model';
 
+const HTTP_OPTIONS = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+  }),
+};
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-  // URL base para el backend de usuarios. Ajusta esta URL a tu backend local.
-  // Es importante que esta URL apunte al endpoint correcto para la gestión de usuarios.
-  private apiUrl = `${environment.url_ms_back}/users`;
+  private readonly apiUrl = `${environment.url_ms_back}/users`;
 
-  // Opciones HTTP, incluyendo cabeceras para solicitudes JSON.
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
-  };
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
-   * Maneja errores HTTP.
+   * Maneja errores HTTP de forma centralizada.
    * @param error El objeto de error HTTP.
    * @returns Un observable con un error.
    */
-  private handleError(error: any): Observable<never> {
+  private handleError(error: HttpErrorResponse): Observable<never> {
     console.error('An error occurred:', error);
     // Devuelve un observable con un mensaje de error legible por el usuario.
-    return throwError('Something bad happened; please try again later.');
+    return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 
   /**
@@ -42,10 +35,7 @@ export class UserService {
    * @returns Un Observable que emite un array de usuarios.
    */
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl, this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.get<User[]>(this.apiUrl, HTTP_OPTIONS).pipe(catchError(this.handleError));
   }
 
   /**
@@ -54,11 +44,7 @@ export class UserService {
    * @returns Un Observable que emite el usuario encontrado.
    */
   getUserById(id: number): Observable<User> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.get<User>(url, this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.get<User>(`${this.apiUrl}/${id}`, HTTP_OPTIONS).pipe(catchError(this.handleError));
   }
 
   /**
@@ -67,10 +53,7 @@ export class UserService {
    * @returns Un Observable que emite el usuario creado.
    */
   createUser(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user, this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.post<User>(this.apiUrl, user, HTTP_OPTIONS).pipe(catchError(this.handleError));
   }
 
   /**
@@ -79,11 +62,7 @@ export class UserService {
    * @returns Un Observable que emite el usuario actualizado.
    */
   updateUser(user: User): Observable<User> {
-    const url = `${this.apiUrl}/${user.id}`;
-    return this.http.put<User>(url, user, this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.put<User>(`${this.apiUrl}/${user.id}`, user, HTTP_OPTIONS).pipe(catchError(this.handleError));
   }
 
   /**
@@ -92,10 +71,6 @@ export class UserService {
    * @returns Un Observable que emite un objeto vacío cuando la eliminación es exitosa.
    */
   deleteUser(id: number): Observable<{}> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.delete(url, this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.delete(`${this.apiUrl}/${id}`, HTTP_OPTIONS).pipe(catchError(this.handleError));
   }
 }

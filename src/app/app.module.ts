@@ -15,7 +15,10 @@ import { ComponentsModule } from './components/components.module';
 
 // Importaciones para las nuevas clases
 import { UserService } from './services/user.service'; // Servicio de Usuario
-import { UsersComponent } from './pages/user/user.component'; // Componente de Usuarios
+import { UsersComponent } from './pages/user/user.component';
+import { SignatureComponent } from './pages/signature/signature.component';
+import { SignatureListComponent } from './pages/signature-list/signature-list.component';
+import { SignatureFormComponent } from './pages/signature-form/signature-form.component'; // Componente de Usuarios
 
 @NgModule({
   imports: [
@@ -32,7 +35,10 @@ import { UsersComponent } from './pages/user/user.component'; // Componente de U
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    UsersComponent, // Declara el nuevo componente de usuarios
+    UsersComponent,
+    SignatureComponent,
+    SignatureListComponent,
+    SignatureFormComponent, // Declara el nuevo componente de usuarios
   ],
   providers: [
     UserService, // Provee el UserService aquí
