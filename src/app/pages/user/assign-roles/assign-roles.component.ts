@@ -37,7 +37,7 @@ export class AssignRolesComponent implements OnInit {
         this.router.navigate(['/users']);
         return;
       }
-      // MODIFICACIÓN: Carga todos los roles y luego los datos del usuario y sus roles.
+      // Carga todos los roles y luego los datos del usuario y sus roles.
       this.loadAllRoles().subscribe(() => {
         this.loadUserDataAndRoles(this.userId!);
       });
@@ -94,8 +94,8 @@ export class AssignRolesComponent implements OnInit {
         // Marcar los checkboxes de los roles que ya están asignados al usuario
         this.allRoles.forEach((role, index) => {
           const isAssigned = this.userAssignedRoles.some((userRole) => userRole.role?.id === role.id);
-          // MODIFICACIÓN: Asegúrate de que el control exista antes de intentar establecer su valor
           if (this.rolesFormArray.at(index)) {
+            // Asegúrate de que el control exista
             this.rolesFormArray.at(index).setValue(isAssigned);
           }
         });
@@ -112,7 +112,6 @@ export class AssignRolesComponent implements OnInit {
    * Sincroniza los roles del usuario con los seleccionados en el formulario.
    */
   onSubmit(): void {
-    // MODIFICACIÓN: Marca todos los controles como 'touched' al intentar enviar para que se muestren los errores
     this.rolesForm.markAllAsTouched();
     if (this.rolesForm.invalid) {
       Swal.fire('Advertencia', 'Hay errores en la selección de roles.', 'warning');
@@ -172,7 +171,7 @@ export class AssignRolesComponent implements OnInit {
       forkJoin([...deleteOperations, ...addOperations]).subscribe({
         next: () => {
           Swal.fire('Roles Actualizados', 'Los roles del usuario han sido actualizados exitosamente.', 'success');
-          // MODIFICACIÓN: Recargar los roles asignados después de la sincronización
+          // Recargar los roles asignados después de la sincronización para actualizar el estado local
           this.userService.getUserRolesByUserId(userId).subscribe({
             next: (updatedUserRoles) => {
               this.userAssignedRoles = updatedUserRoles; // Actualiza el estado local

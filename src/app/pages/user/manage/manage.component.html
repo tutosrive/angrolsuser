@@ -70,6 +70,7 @@
                     <div *ngIf="allRoles.length > 0; else noRolesAvailable">
                       <div class="form-check" *ngFor="let role of allRoles; let i = index">
                         <input class="form-check-input" type="checkbox" [formControlName]="i" [id]="'roleCheckbox' + role.id" [disabled]="isReadOnly" />
+                        <!-- CORRECCIÓN: Se eliminó el comentario de HTML que estaba rompiendo la etiqueta -->
                         <label class="form-check-label" [for]="'roleCheckbox' + role.id"> {{ role.name }} ({{ role.description }}) </label>
                       </div>
                     </div>
