@@ -68,9 +68,11 @@ export class AuthService {
           });
         } else {
           localStorage.removeItem('google_token');
+          localStorage.removeItem('sesion');
         }
       } catch {
         localStorage.removeItem('google_token');
+        localStorage.removeItem('sesion');
       }
     }
   }
@@ -83,7 +85,7 @@ export class AuthService {
         type: 'standard',
         shape: 'rectangular',
         text: 'signin_with',
-        logo_alignment: 'left',
+        logo_alignment: 'center',
       });
     }
   }

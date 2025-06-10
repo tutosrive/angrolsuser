@@ -1,0 +1,32 @@
+.form-check {
+  margin-bottom: 0.5rem;
+}
+
+.form-check-input[type='checkbox'] {
+  border-radius: 0.25rem; /* Asegura que los checkboxes sean cuadrados si Argon los redondea */
+  box-shadow: none; /* Elimina cualquier sombra no deseada */
+}
+
+/* Estilos para etiquetas de checkbox */
+.form-check-label {
+  cursor: pointer; /* Indica que es un elemento interactivo */
+  padding-left: 0.5rem; /* Espacio entre el checkbox y el texto */
+}
+
+/* Estilo para el contenedor del formulario */
+.card-body {
+  padding: 1.5rem;
+}
+
+/* Estilo para el título de la sección */
+.heading-small {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  margin-bottom: 1.5rem;
+  color: #8898aa; /* Color de texto para headings pequeños */
+}
+
+/* Alineación de botones */
+.text-center button {
+  min-width: 150px; /* Ancho mínimo para los botones de acción */
+}

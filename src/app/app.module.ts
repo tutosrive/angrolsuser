@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Importa ReactiveFormsModule
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -13,29 +13,33 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 
-// Importaciones para las nuevas clases
-import { UserService } from './services/user.service'; // Servicio de Usuario
-import { UsersComponent } from './pages/user/user.component'; // Componente de Usuarios
+import { UserService } from './services/user.service';
+import { UsersComponent } from './pages/user/user.component';
+import { RolesModule } from './pages/roles/roles.module';
+import { RoleService } from './services/role.service';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ManageComponent as UserManageComponent } from './pages/user/manage/manage.component';
+// MODIFICACIÓN: Importa el nuevo componente de asignación de roles para usuarios
+import { AssignRolesComponent } from './pages/user/assign-roles/assign-roles.component';
 
 @NgModule({
-  imports: [
-    BrowserAnimationsModule,
-    FormsModule,
-    HttpClientModule,
-    ComponentsModule,
-    NgbModule,
-    RouterModule,
-    AppRoutingModule,
-    ReactiveFormsModule, // Asegúrate de que ReactiveFormsModule esté importado aquí
-  ],
+  imports: [BrowserAnimationsModule, FormsModule, HttpClientModule, ComponentsModule, NgbModule, RouterModule, AppRoutingModule, ReactiveFormsModule, RolesModule],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    UsersComponent, // Declara el nuevo componente de usuarios
+    UsersComponent,
+    UserManageComponent,
+    AssignRolesComponent, // MODIFICACIÓN: Declara el nuevo componente aquí
   ],
   providers: [
-    UserService, // Provee el UserService aquí
+    UserService,
+    RoleService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

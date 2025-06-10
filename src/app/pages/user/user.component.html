@@ -1,38 +1,23 @@
-<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
     <div class="header-body">
-      <!-- Card stats -->
-      <div class="row">
-        <div class="col-xl-3 col-lg-6">
-          <div class="card card-stats mb-4 mb-xl-0">
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <h5 class="card-title text-uppercase text-muted mb-0">Total Usuarios</h5>
-                  <span class="h2 font-weight-bold mb-0">{{ users.length }}</span>
-                </div>
-                <div class="col-auto">
-                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                    <i class="fas fa-users"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- Puedes agregar estadísticas o cards aquí si lo deseas, similar a dashboard -->
     </div>
   </div>
 </div>
-<!-- Page content -->
 <div class="container-fluid mt--7">
-  <!-- Table -->
   <div class="row">
     <div class="col">
       <div class="card shadow">
         <div class="card-header border-0">
-          <h3 class="mb-0">Gestión de Usuarios</h3>
-          <button class="btn btn-primary float-right" (click)="openCreateForm()"><i class="fas fa-plus"></i> Nuevo Usuario</button>
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Gestión de Usuarios</h3>
+            </div>
+            <div class="col text-right">
+              <button class="btn btn-sm btn-primary" (click)="createUser()">Crear Nuevo Usuario</button>
+            </div>
+          </div>
         </div>
         <div class="table-responsive">
           <table class="table align-items-center table-flush">
@@ -50,12 +35,18 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>
-                  <button class="btn btn-sm btn-info" (click)="editUser(user)"><i class="fas fa-edit"></i> Editar</button>
-                  <button class="btn btn-sm btn-danger" (click)="deleteUser(user.id)"><i class="fas fa-trash"></i> Eliminar</button>
+                  <button class="btn btn-sm btn-info" (click)="viewUser(user.id!)"><i class="fas fa-eye"></i> Ver</button>
+                  <button class="btn btn-sm btn-warning" (click)="updateUser(user.id!)"><i class="fas fa-edit"></i> Actualizar</button>
+                  <button class="btn btn-sm btn-danger" (click)="deleteUser(user.id!)"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                  <!-- Botón de "Roles" para navegar a la nueva vista de asignación de roles -->
+                  <button class="btn btn-sm btn-primary" (click)="assignRoles(user.id!)"><i class="fas fa-user-tag"></i> Roles</button>
                 </td>
               </tr>
             </tbody>
           </table>
+          <div *ngIf="users.length === 0" class="text-center py-4">
+            <p>No hay usuarios para mostrar. ¡Crea uno nuevo!</p>
+          </div>
         </div>
       </div>
     </div>

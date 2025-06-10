@@ -1,0 +1,51 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Puedes agregar estadísticas o cards aquí si lo deseas -->
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Asignar Roles a Usuario: {{ userName }} ({{ userEmail }})</h3>
+            </div>
+            <div class="col text-right">
+              <button class="btn btn-sm btn-secondary" (click)="goBack()"><i class="fas fa-arrow-left"></i> Volver a Usuarios</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="rolesForm" (ngSubmit)="onSubmit()">
+            <div class="pl-lg-4">
+              <div class="row mt-4">
+                <div class="col-lg-12">
+                  <h6 class="heading-small text-muted mb-4">Roles Disponibles</h6>
+                  <div class="form-group">
+                    <div *ngIf="allRoles.length > 0; else noRolesAvailable">
+                      <div class="form-check" *ngFor="let role of allRoles; let i = index">
+                        <input class="form-check-input" type="checkbox" [formControlName]="i" [id]="'roleCheckbox' + role.id" />
+                        <label class="form-check-label" [for]="'roleCheckbox' + role.id"> {{ role.name }} ({{ role.description }}) </label>
+                      </div>
+                    </div>
+                    <ng-template #noRolesAvailable>
+                      <p class="text-muted">No hay roles disponibles para asignar.</p>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center">
+                <button type="submit" class="btn btn-success mt-4"><i class="fas fa-save"></i> Guardar Roles</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
