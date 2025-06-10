@@ -1,0 +1,75 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Espacio para estadísticas o cards si se desean, similar a dashboard -->
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">
+                <!-- Títulos dinámicos según el modo del formulario -->
+                <span *ngIf="mode === 'create'">Crear Nuevo Permiso</span>
+                <span *ngIf="mode === 'view'">Detalle del Permiso</span>
+                <span *ngIf="mode === 'edit'">Editar Permiso</span>
+              </h3>
+            </div>
+            <div class="col text-right">
+              <!-- Botón para volver a la lista de permisos -->
+              <button class="btn btn-sm btn-secondary" (click)="goBack()"><i class="fas fa-arrow-left"></i> Volver a la Lista</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Formulario de permisos -->
+          <form [formGroup]="permissionForm" (ngSubmit)="onSubmit()">
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group" [class.has-danger]="permissionForm.get('url')?.invalid && permissionForm.get('url')?.touched">
+                    <label class="form-control-label" for="input-url">URL</label>
+                    <input type="text" id="input-url" class="form-control form-control-alternative" formControlName="url" placeholder="Ej: /api/users" [readonly]="isReadOnly" />
+                    <!-- Mensajes de validación para el campo URL -->
+                    <div *ngIf="permissionForm.get('url')?.invalid && permissionForm.get('url')?.touched" class="text-danger">
+                      <small *ngIf="permissionForm.get('url')?.errors?.['required']">La URL es requerida.</small>
+                      <small *ngIf="permissionForm.get('url')?.errors?.['minlength']">La URL debe tener al menos 3 caracteres.</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group" [class.has-danger]="permissionForm.get('method')?.invalid && permissionForm.get('method')?.touched">
+                    <label class="form-control-label" for="input-method">Método HTTP</label>
+                    <!-- Selector de método HTTP con opciones predefinidas -->
+                    <select id="input-method" class="form-control form-control-alternative" formControlName="method" [attr.disabled]="isReadOnly ? true : null">
+                      <option value="">Seleccione un método</option>
+                      <option *ngFor="let method of httpMethods" [value]="method">
+                        {{ method }}
+                      </option>
+                    </select>
+                    <!-- Mensajes de validación para el campo Método -->
+                    <div *ngIf="permissionForm.get('method')?.invalid && permissionForm.get('method')?.touched" class="text-danger">
+                      <small *ngIf="permissionForm.get('method')?.errors?.['required']">El método es requerido.</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botones de acción del formulario (solo visibles si no es de solo lectura) -->
+              <div class="text-center" *ngIf="!isReadOnly">
+                <button type="submit" class="btn btn-success mt-4">
+                  <span *ngIf="mode === 'create'"><i class="fas fa-plus"></i> Crear Permiso</span>
+                  <span *ngIf="mode === 'edit'"><i class="fas fa-save"></i> Guardar Cambios</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

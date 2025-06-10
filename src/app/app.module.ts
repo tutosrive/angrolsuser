@@ -19,19 +19,23 @@ import { RolesModule } from './pages/roles/roles.module';
 import { RoleService } from './services/role.service';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ManageComponent as UserManageComponent } from './pages/user/manage/manage.component';
-// MODIFICACIÓN: Importa el nuevo componente de asignación de roles para usuarios
 import { AssignRolesComponent } from './pages/user/assign-roles/assign-roles.component';
+import { PermissionsModule } from './pages/permissions/permissions.module'; // NUEVA IMPORTACIÓN
 
 @NgModule({
-  imports: [BrowserAnimationsModule, FormsModule, HttpClientModule, ComponentsModule, NgbModule, RouterModule, AppRoutingModule, ReactiveFormsModule, RolesModule],
-  declarations: [
-    AppComponent,
-    AdminLayoutComponent,
-    AuthLayoutComponent,
-    UsersComponent,
-    UserManageComponent,
-    AssignRolesComponent, // MODIFICACIÓN: Declara el nuevo componente aquí
+  imports: [
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
+    ComponentsModule,
+    NgbModule,
+    RouterModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    RolesModule,
+    PermissionsModule, // NUEVA ADICIÓN
   ],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, UsersComponent, UserManageComponent, AssignRolesComponent],
   providers: [
     UserService,
     RoleService,
