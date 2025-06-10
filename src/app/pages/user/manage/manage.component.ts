@@ -29,17 +29,16 @@ export class ManageComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       // MODIFICACIÓN: Inicializa la contraseña con un array de validadores vacío.
-      // Los validadores específicos se aplicarán en setFormStatus.
+      // Los validadores específicos (requerido, minLength) se aplicarán en setFormStatus.
       password: ['', []],
       roles: this.fb.array([]), // FormArray para manejar checkboxes de roles
     });
   }
 
   ngOnInit(): void {
-    // MODIFICACIÓN: Carga todos los roles al iniciar el componente.
-    // Una vez que los roles están cargados, se suscribe a los parámetros de la ruta
-    // para determinar el modo y cargar los datos del usuario si es necesario.
+    // Carga todos los roles al iniciar el componente
     this.loadAllRoles().subscribe(() => {
+      // Una vez que todos los roles están cargados, podemos continuar con la carga del usuario
       this.route.params.subscribe((params) => {
         if (params['id']) {
           this.userId = +params['id']; // Convierte a número
@@ -52,7 +51,7 @@ export class ManageComponent implements OnInit {
         } else {
           this.mode = 'create';
         }
-        // MODIFICACIÓN: Llama a setFormStatus aquí para asegurar que los validadores de contraseña
+        // Llama a setFormStatus aquí para asegurar que los validadores de contraseña
         // y el estado de solo lectura se apliquen correctamente después de determinar el modo
         // y (si aplica) cargar los datos del usuario.
         this.setFormStatus();
@@ -256,7 +255,7 @@ export class ManageComponent implements OnInit {
       forkJoin([...deleteOperations, ...addOperations]).subscribe({
         next: () => {
           Swal.fire('Roles Actualizados', 'Los roles del usuario han sido actualizados exitosamente.', 'success');
-          // MODIFICACIÓN: Recargar los roles asignados después de la sincronización
+          // MODIFICACIÓN: Recargar los roles asignados después de la sincronización para actualizar el estado local
           this.userService.getUserRolesByUserId(userId).subscribe({
             next: (updatedUserRoles) => {
               this.userAssignedRoles = updatedUserRoles; // Actualiza el estado local
@@ -264,7 +263,7 @@ export class ManageComponent implements OnInit {
             },
             error: (err) => {
               console.error('Error al recargar userRoles después de sincronización:', err);
-              this.router.navigate(['/users']);
+              this.router.navigate(['/users']); // Aun con error al recargar, redirige
             },
           });
         },
