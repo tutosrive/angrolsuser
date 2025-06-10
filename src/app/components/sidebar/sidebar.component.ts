@@ -16,11 +16,13 @@ export const ROUTES: RouteInfo[] = [
   { path: '/dashboard', title: 'Dashboard', icon: 'ni-tv-2 text-primary', class: '', type: 2 },
   { path: '/icons', title: 'Icons', icon: 'ni-planet text-blue', class: '', type: 2 },
   { path: '/maps', title: 'Maps', icon: 'ni-pin-3 text-orange', class: '', type: 2 },
-  { path: '/user-profile', title: 'User profile', icon: 'ni-single-02 text-yellow', class: '', type: 2 },
+  { path: '/user-profile', title: 'User profile', icon: 'ni-single-02 text-yellow', class: '', type: 1 },
   { path: '/tables', title: 'Tables', icon: 'ni-bullet-list-67 text-red', class: '', type: 2 },
   { path: '/login', title: 'Login', icon: 'ni-key-25 text-info', class: '', type: 0 }, // Solo visible sin sesión
   { path: '/register', title: 'Register', icon: 'ni-circle-08 text-pink', class: '', type: 0 }, // Solo visible sin sesión
   { path: '/theaters', title: 'Theaters', icon: 'ni-building text-green', class: '', type: 1 }, // Solo visible con sesión
+  { path: '/users', title: 'Users', icon: 'ni-single-02 text-blue', class: '', type: 1 },
+  { path: '/roles', title: 'Roles', icon: 'ni-badge text-purple', class: '', type: 1 },
 ];
 
 @Component({

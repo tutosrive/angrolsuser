@@ -3,99 +3,103 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-
-// Definición de la interfaz User
-// Asumo que esta interfaz ya existe o se creará.
-// Si tus modelos están en otro lugar, ajusta la ruta de importación.
 import { User } from '../models/user.model';
+import { UserRole } from '../models/user-role.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-  // URL base para el backend de usuarios. Ajusta esta URL a tu backend local.
-  // Es importante que esta URL apunte al endpoint correcto para la gestión de usuarios.
   private apiUrl = `${environment.url_ms_back}/users`;
+  private userRolesApiUrl = `${environment.url_ms_back}/user-roles`;
 
-  // Opciones HTTP, incluyendo cabeceras para solicitudes JSON.
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
+      'Content-Type': 'application/json',
+    }),
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  /**
-   * Maneja errores HTTP.
-   * @param error El objeto de error HTTP.
-   * @returns Un observable con un error.
-   */
   private handleError(error: any): Observable<never> {
-    console.error('An error occurred:', error);
-    // Devuelve un observable con un mensaje de error legible por el usuario.
-    return throwError('Something bad happened; please try again later.');
+    console.error('Ocurrió un error en UserService:', error);
+    return throwError(() => new Error('Algo salió mal; por favor, inténtelo de nuevo más tarde.'));
   }
 
-  /**
-   * Obtiene todos los usuarios del backend.
-   * @returns Un Observable que emite un array de usuarios.
-   */
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl, this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.get<User[]>(this.apiUrl, this.httpOptions).pipe(catchError(this.handleError));
   }
 
-  /**
-   * Obtiene un usuario por su ID.
-   * @param id El ID del usuario a obtener.
-   * @returns Un Observable que emite el usuario encontrado.
-   */
   getUserById(id: number): Observable<User> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<User>(url, this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.get<User>(url, this.httpOptions).pipe(catchError(this.handleError));
   }
 
-  /**
-   * Crea un nuevo usuario.
-   * @param user El objeto usuario a crear.
-   * @returns Un Observable que emite el usuario creado.
-   */
   createUser(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user, this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
+    const userToSend = { ...user };
+    delete userToSend.id; // El ID se genera en el backend
+    return this.http.post<User>(this.apiUrl, userToSend, this.httpOptions).pipe(catchError(this.handleError));
   }
 
-  /**
-   * Actualiza un usuario existente.
-   * @param user El objeto usuario con los datos actualizados. Se asume que el objeto incluye el ID.
-   * @returns Un Observable que emite el usuario actualizado.
-   */
   updateUser(user: User): Observable<User> {
     const url = `${this.apiUrl}/${user.id}`;
-    return this.http.put<User>(url, user, this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
+    const userToSend = { ...user };
+    // Asegúrate de que la contraseña solo se envíe si ha sido modificada explícitamente
+    // Si la contraseña es un string vacío, significa que no se modificó y no debe enviarse.
+    if (userToSend.password === undefined || userToSend.password === '') {
+      delete userToSend.password;
+    }
+    return this.http.put<User>(url, userToSend, this.httpOptions).pipe(catchError(this.handleError));
+  }
+
+  deleteUser(id: number): Observable<{}> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.delete(url, this.httpOptions).pipe(catchError(this.handleError));
   }
 
   /**
-   * Elimina un usuario por su ID.
-   * @param id El ID del usuario a eliminar.
+   * Obtiene todos los objetos UserRole (relaciones entre usuarios y roles)
+   * asociados a un ID de usuario específico.
+   * @param userId El ID del usuario.
+   * @returns Un Observable que emite un array de objetos UserRole.
+   */
+  getUserRolesByUserId(userId: number): Observable<UserRole[]> {
+    const url = `${this.userRolesApiUrl}/user/${userId}`;
+    return this.http.get<UserRole[]>(url, this.httpOptions).pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Crea una nueva relación UserRole (asigna un rol a un usuario).
+   * El endpoint para crear un UserRole es POST /user-roles.
+   * La estructura esperada es { user_id: number, role_id: number }.
+   * @param userRoleData El objeto con user_id y role_id.
+   * @returns Un Observable que emite el objeto UserRole creado.
+   */
+  createUserRole(userRoleData: { user_id: number; role_id: number }): Observable<UserRole> {
+    console.log('Sending UserRole creation request:', userRoleData);
+    return this.http.post<UserRole>(this.userRolesApiUrl, userRoleData, this.httpOptions).pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Elimina una relación UserRole específica.
+   * Según tu Postman, el endpoint para eliminar un UserRole es DELETE /user-roles/:id.
+   * @param userRoleId El ID del objeto UserRole a eliminar (que es un string UUID).
    * @returns Un Observable que emite un objeto vacío cuando la eliminación es exitosa.
    */
-  deleteUser(id: number): Observable<{}> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.delete(url, this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
+  deleteUserRole(userRoleId: string): Observable<{}> {
+    const url = `${this.userRolesApiUrl}/${userRoleId}`;
+    console.log('Sending UserRole deletion request to:', url);
+    return this.http.delete(url, this.httpOptions).pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Obtiene todos los objetos UserRole (relaciones entre usuarios y roles)
+   * asociados a un ID de rol específico.
+   * @param roleId El ID del rol.
+   * @returns Un Observable que emite un array de objetos UserRole.
+   */
+  getUsersByRoleId(roleId: number): Observable<UserRole[]> {
+    const url = `${this.userRolesApiUrl}/role/${roleId}`;
+    return this.http.get<UserRole[]>(url, this.httpOptions).pipe(catchError(this.handleError));
   }
 }

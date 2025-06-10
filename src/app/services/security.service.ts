@@ -30,13 +30,22 @@ export class SecurityService {
   */
   saveSession(dataSesion: any) {
     let data: User = {
-      id: dataSesion['user']['id'],
-      name: dataSesion['user']['name'],
-      email: dataSesion['user']['email'],
+      id: dataSesion.id,
+      name: dataSesion.name,
+      email: dataSesion.email,
       password: '', // La contraseña no debe guardarse en la sesión
       //role:dataSesion["user"]["role"],
-      token: dataSesion['token'],
+      token: dataSesion.token,
     };
+
+    // let data: User = {
+    //   id: dataSesion['user']['id'],
+    //   name: dataSesion['user']['name'],
+    //   email: dataSesion['user']['email'],
+    //   password: '', // La contraseña no debe guardarse en la sesión
+    //   //role:dataSesion["user"]["role"],
+    //   token: dataSesion['token'],
+    // };
     // Tratar de cifrar los datos: Tareas
     // Importante: No estamos guardando aquí el 'google_token' de Google Auth.
     // Si la autenticación principal es Google, 'existSession' debe depender de 'google_token'.
