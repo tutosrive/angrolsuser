@@ -43,4 +43,15 @@ export const AdminLayoutRoutes: Routes = [
       },
     ],
   },
+  // NUEVAS RUTAS PARA LA GESTIÓN DE PERMISOS
+  {
+    path: 'permissions',
+    canActivate: [AuthenticatedGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('src/app/pages/permissions/permissions.module').then((m) => m.PermissionsModule),
+      },
+    ],
+  },
 ];

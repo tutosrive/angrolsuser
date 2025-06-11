@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, GoogleUser } from 'src/app/services/auth.service';
-import { SecurityService } from 'src/app/services/security.service'; // Asegúrate de importar SecurityService
+import { SecurityService } from 'src/app/services/security.service';
 import { Observable } from 'rxjs';
 
 declare interface RouteInfo {
@@ -23,6 +23,7 @@ export const ROUTES: RouteInfo[] = [
   { path: '/theaters', title: 'Theaters', icon: 'ni-building text-green', class: '', type: 1 }, // Solo visible con sesión
   { path: '/users', title: 'Users', icon: 'ni-single-02 text-blue', class: '', type: 1 },
   { path: '/roles', title: 'Roles', icon: 'ni-badge text-purple', class: '', type: 1 },
+  { path: '/permissions', title: 'Permissions', icon: 'ni-lock-circle-open text-danger', class: '', type: 1 }, // NUEVA ENTRADA PARA PERMISOS
 ];
 
 @Component({
@@ -33,25 +34,18 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   public menuItems: any[];
   public isCollapsed = true;
-  public user$: Observable<GoogleUser | null>; // Observable para los datos del usuario
+  public user$: Observable<GoogleUser | null>;
 
-  constructor(
-    private router: Router,
-    public authService: AuthService, // Inyectar AuthService
-    public securityService: SecurityService // Inyectar SecurityService
-  ) {}
+  constructor(private router: Router, public authService: AuthService, public securityService: SecurityService) {}
 
   ngOnInit() {
     this.menuItems = ROUTES.filter((menuItem) => menuItem);
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
     });
-
-    // Suscribirse al observable de usuario del AuthService
     this.user$ = this.authService.user$;
   }
 
-  // Método para cerrar sesión, llamando al servicio de autenticación
   onSignOut(): void {
     this.authService.signOut();
   }

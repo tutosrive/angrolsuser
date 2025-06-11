@@ -32,6 +32,7 @@ const routes: Routes = [
       },
     ],
   },
+  { path: 'permissions', loadChildren: () => import('./pages/permissions/permissions.module').then(m => m.PermissionsModule) },
   {
     path: '**',
     redirectTo: 'dashboard',

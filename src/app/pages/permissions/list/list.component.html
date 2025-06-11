@@ -1,0 +1,55 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Puedes agregar estadísticas o cards aquí si lo deseas, similar a dashboard -->
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Gestión de Permisos</h3>
+            </div>
+            <div class="col text-right">
+              <button class="btn btn-sm btn-primary" (click)="createPermission()"><i class="fas fa-plus"></i> Crear Nuevo Permiso</button>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">URL</th>
+                <th scope="col">Método</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Itera sobre la lista de permisos para mostrar cada uno en una fila -->
+              <tr *ngFor="let permission of permissions">
+                <td>{{ permission.id }}</td>
+                <td>{{ permission.url }}</td>
+                <td>{{ permission.method }}</td>
+                <td>
+                  <!-- Botones de acción para cada permiso -->
+                  <button class="btn btn-sm btn-info" (click)="viewPermission(permission.id!)"><i class="fas fa-eye"></i> Ver</button>
+                  <button class="btn btn-sm btn-warning" (click)="updatePermission(permission.id!)"><i class="fas fa-edit"></i> Actualizar</button>
+                  <button class="btn btn-sm btn-danger" (click)="deletePermission(permission.id!)"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Mensaje si no hay permisos para mostrar -->
+          <div *ngIf="permissions.length === 0" class="text-center py-4">
+            <p>No hay permisos para mostrar. ¡Crea uno nuevo!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
